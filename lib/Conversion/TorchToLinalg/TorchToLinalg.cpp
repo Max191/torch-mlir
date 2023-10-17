@@ -23,6 +23,7 @@
 #include "torch-mlir/Dialect/TorchConversion/IR/TorchConversionDialect.h"
 #include "torch-mlir/Dialect/TorchConversion/IR/TorchConversionOps.h"
 #include "torch-mlir/Dialect/TorchConversion/Transforms/BackendTypeConversion.h"
+#include "mlir/Transforms/GreedyPatternRewriteDriver.h"
 
 using namespace mlir;
 using namespace mlir::torch;
@@ -62,6 +63,11 @@ public:
     TypeConverter typeConverter;
     typeConverter.addConversion([](Type type) { return type; });
     TorchConversion::setupBackendTypeConversion(target, typeConverter);
+
+    RewritePatternSet propCatPatterns(context);
+    torch_to_linalg::populatePropagateCatPatterns(propCatPatterns);
+    if (failed(applyPatternsAndFoldGreedily(getOperation(), std::move(propCatPatterns))))
+      return signalPassFailure();
 
     RewritePatternSet patterns(context);
 

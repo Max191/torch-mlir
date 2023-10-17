@@ -63,6 +63,7 @@ void populateIndirectDataMovementPatternsAndLegality(
 void populateTensorConstructorsPatternsAndLegality(TypeConverter &typeConverter,
                                                    RewritePatternSet &patterns,
                                                    ConversionTarget &target);
+void populatePropagateCatPatterns(RewritePatternSet &patterns);
 
 } // namespace torch_to_linalg
 } // namespace torch

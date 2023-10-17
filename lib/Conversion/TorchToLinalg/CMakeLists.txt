@@ -3,6 +3,7 @@ add_mlir_conversion_library(TorchMLIRTorchToLinalg
   IndirectDataMovement.cpp
   Linear.cpp
   Pooling.cpp
+  PropagateCat.cpp
   Random.cpp
   Reduction.cpp
   TensorConstructors.cpp
